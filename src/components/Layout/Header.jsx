@@ -56,7 +56,7 @@ const Header = () => {
           <Button 
             color="inherit" 
             component={Link} 
-            to="/complaints"
+            to="/complaint"  // Updated from "/complaints" to "/complaint"
           >
             Complaints
           </Button>

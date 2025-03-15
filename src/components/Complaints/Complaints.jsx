@@ -18,7 +18,7 @@ const Complaints = () => {
     try {
       await emailjs.send(
         'service_qtshmw7',
-        'template_pd8c173',
+        'template_925omx1',
         {
           subject: complaint.subject,
           message: complaint.description,
