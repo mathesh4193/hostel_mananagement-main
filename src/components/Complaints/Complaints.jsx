@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Typography, TextField, Button, Paper, Box } from '@mui/material';
+import { Container, Typography, TextField, Button, Paper, Box, Snackbar, Alert } from '@mui/material';
 import emailjs from '@emailjs/browser';
 import './Complaints.css';
 
 const Complaints = () => {
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+
   useEffect(() => {
     emailjs.init("E5morAfrIunaazqjt");
   }, []);
@@ -16,21 +20,30 @@ const Complaints = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const templateParams = {
+        subject: complaint.subject,
+        message: complaint.description,
+        timestamp: new Date().toLocaleString(),
+        from_name: 'VCET Hostel Student',
+        to_name: 'Hostel Administration'
+      };
+
       await emailjs.send(
         'service_qtshmw7',
         'template_925omx1',
-        {
-          subject: complaint.subject,
-          message: complaint.description,
-        },
+        templateParams,
         'E5morAfrIunaazqjt'
       );
 
-      alert('Complaint submitted successfully!');
+      setSnackbarMessage('Complaint submitted successfully!');
+      setSnackbarSeverity('success');
+      setOpenSnackbar(true);
       setComplaint({ subject: '', description: '' });
     } catch (error) {
       console.error('Error sending complaint:', error);
-      alert('Failed to submit complaint. Please try again.');
+      setSnackbarMessage('Failed to submit complaint. Please try again.');
+      setSnackbarSeverity('error');
+      setOpenSnackbar(true);
     }
   };
 
@@ -39,6 +52,10 @@ const Complaints = () => {
       ...complaint,
       [e.target.name]: e.target.value
     });
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -91,6 +108,21 @@ const Complaints = () => {
           </Button>
         </form>
       </Paper>
+
+      <Snackbar 
+        open={openSnackbar} 
+        autoHideDuration={6000} 
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert 
+          onClose={handleCloseSnackbar} 
+          severity={snackbarSeverity}
+          sx={{ width: '100%' }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
