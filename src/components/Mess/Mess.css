@@ -1,0 +1,43 @@
+.mess-container {
+  padding: 20px;
+}
+
+.mess-title {
+  margin-bottom: 20px;
+  color: #1976d2;
+}
+
+.menu-grid {
+  margin-top: 20px;
+}
+
+.menu-card {
+  padding: 20px;
+  height: 100%;
+  background: linear-gradient(135deg, #1a2035 0%, #2a3446 100%);
+  color: white;
+}
+
+.meal-title {
+  color: #4dabf5;
+  margin-bottom: 10px;
+}
+
+.update-button {
+  margin-bottom: 20px;
+}
+
+.MuiDialog-paper {
+  background-color: #1a2035 !important;
+  color: white !important;
+}
+
+.MuiTextField-root {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.MuiInputLabel-root,
+.MuiInputBase-input {
+  color: white !important;
+}
