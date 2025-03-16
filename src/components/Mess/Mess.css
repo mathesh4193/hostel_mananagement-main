@@ -1,5 +1,20 @@
 .mess-container {
-  padding: 20px;
+  padding: 2rem;
+  margin-top: 64px;
+}
+
+.MuiTableCell-head {
+  background-color: #1976d2 !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
+.MuiTableRow-root:nth-of-type(odd) {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.MuiTableRow-root:hover {
+  background-color: rgba(25, 118, 210, 0.08);
 }
 
 .mess-title {

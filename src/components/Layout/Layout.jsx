@@ -1,14 +1,18 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 
 const Layout = ({ children }) => {
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Header />
-      <main style={{ flex: 1 }}>{children}</main>
-      <Footer />
-    </div>
+    <>
+      {isHomePage && <Header />}
+      {children}
+      {isHomePage && <Footer />}
+    </>
   );
 };
 

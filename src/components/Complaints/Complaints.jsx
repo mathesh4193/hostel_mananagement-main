@@ -9,7 +9,7 @@ const Complaints = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
   useEffect(() => {
-    emailjs.init("E5morAfrIunaazqjt");
+    emailjs.init("E5morAfrIunaazqjt"); // Initialize EmailJS
   }, []);
 
   const [complaint, setComplaint] = useState({
@@ -19,30 +19,48 @@ const Complaints = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!complaint.subject || !complaint.description) {
+      setSnackbarMessage('Please fill in all fields.');
+      setSnackbarSeverity('error');
+      setOpenSnackbar(true);
+      return;
+    }
+
     try {
+      console.log("Sending complaint...");
+
       const templateParams = {
         subject: complaint.subject,
         message: complaint.description,
         timestamp: new Date().toLocaleString(),
         from_name: 'VCET Hostel Student',
-        to_name: 'Hostel Administration'
+        to_name: 'Hostel Administration',
+        to_email: 'mathinash58@gmail.com', // Change to another test email if needed
+        reply_to: 'your_verified_email@example.com' // Use an email verified in EmailJS
       };
 
-      await emailjs.send(
-        'service_qtshmw7',
-        'template_925omx1',
+      const response = await emailjs.send(
+        'service_qtshmw7',   // Your EmailJS service ID
+        'template_pd8c173',  // Your EmailJS template ID
         templateParams,
-        'E5morAfrIunaazqjt'
+        'E5morAfrIunaazqjt'  // Your EmailJS public key
       );
 
-      setSnackbarMessage('Complaint submitted successfully!');
-      setSnackbarSeverity('success');
-      setOpenSnackbar(true);
-      setComplaint({ subject: '', description: '' });
+      console.log("EmailJS Response:", response);
+
+      if (response.status === 200) {
+        setSnackbarMessage('Complaint submitted successfully!');
+        setSnackbarSeverity('success');
+        setComplaint({ subject: '', description: '' });
+      } else {
+        throw new Error(`Unexpected response: ${JSON.stringify(response)}`);
+      }
     } catch (error) {
-      console.error('Error sending complaint:', error);
-      setSnackbarMessage('Failed to submit complaint. Please try again.');
+      console.error('EmailJS Error:', error);
+      setSnackbarMessage(`Error: ${error.message}`);
       setSnackbarSeverity('error');
+    } finally {
       setOpenSnackbar(true);
     }
   };
@@ -109,6 +127,7 @@ const Complaints = () => {
         </form>
       </Paper>
 
+      {/* Snackbar for Notifications */}
       <Snackbar 
         open={openSnackbar} 
         autoHideDuration={6000} 

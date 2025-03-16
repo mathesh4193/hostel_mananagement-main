@@ -1,105 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Typography, Paper, Grid, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
-import './Mess.css';
+import React from 'react';
+import { Container, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 
 const Mess = () => {
-  const [menu, setMenu] = useState({
-    breakfast: '',
-    lunch: '',
-    snacks: '',
-    dinner: ''
-  });
-  const [openDialog, setOpenDialog] = useState(false);
-  const [editMenu, setEditMenu] = useState({ ...menu });
-  const isWarden = localStorage.getItem('role') === 'warden';
-
-  useEffect(() => {
-    fetchTodayMenu();
-  }, []);
-
-  const fetchTodayMenu = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/mess/today');
-      const data = await response.json();
-      if (data.success) {
-        setMenu(data.menu);
-      }
-    } catch (error) {
-      console.error('Error fetching menu:', error);
-    }
-  };
-
-  const handleUpdateMenu = async () => {
-    try {
-      const response = await fetch('http://localhost:5000/api/mess/update', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(editMenu)
-      });
-      const data = await response.json();
-      if (data.success) {
-        setMenu(editMenu);
-        setOpenDialog(false);
-      }
-    } catch (error) {
-      console.error('Error updating menu:', error);
-    }
+  const messSchedule = {
+    Monday: {
+      breakfast: 'Idli, Sambar, Chutney',
+      lunch: 'Rice, Dal, Vegetables',
+      dinner: 'Chapati, Curry, Rice'
+    },
+    Tuesday: {
+      breakfast: 'Dosa, Chutney',
+      lunch: 'Rice, Sambar, Curd',
+      dinner: 'Pulao, Raita'
+    },
+    // Add more days...
   };
 
   return (
     <Container className="mess-container">
-      <Typography variant="h4" className="mess-title">Today's Mess Menu</Typography>
+      <Typography variant="h4" gutterBottom>
+        Mess Schedule
+      </Typography>
       
-      {isWarden && (
-        <Button 
-          variant="contained" 
-          color="primary" 
-          onClick={() => setOpenDialog(true)}
-          className="update-button"
-        >
-          Update Menu
-        </Button>
-      )}
-
-      <Grid container spacing={3} className="menu-grid">
-        {Object.entries(menu).map(([meal, items]) => (
-          <Grid item xs={12} md={6} key={meal}>
-            <Paper className="menu-card">
-              <Typography variant="h6" className="meal-title">
-                {meal.charAt(0).toUpperCase() + meal.slice(1)}
-              </Typography>
-              <Typography variant="body1">{items || 'Menu not updated'}</Typography>
-            </Paper>
-          </Grid>
-        ))}
-      </Grid>
-
-      {isWarden && (
-        <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-          <DialogTitle>Update Today's Menu</DialogTitle>
-          <DialogContent>
-            {Object.keys(editMenu).map((meal) => (
-              <TextField
-                key={meal}
-                label={meal.charAt(0).toUpperCase() + meal.slice(1)}
-                fullWidth
-                multiline
-                rows={2}
-                value={editMenu[meal]}
-                onChange={(e) => setEditMenu({ ...editMenu, [meal]: e.target.value })}
-                margin="normal"
-              />
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Day</TableCell>
+              <TableCell>Breakfast</TableCell>
+              <TableCell>Lunch</TableCell>
+              <TableCell>Dinner</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Object.entries(messSchedule).map(([day, meals]) => (
+              <TableRow key={day}>
+                <TableCell>{day}</TableCell>
+                <TableCell>{meals.breakfast}</TableCell>
+                <TableCell>{meals.lunch}</TableCell>
+                <TableCell>{meals.dinner}</TableCell>
+              </TableRow>
             ))}
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
-            <Button onClick={handleUpdateMenu} color="primary">Update</Button>
-          </DialogActions>
-        </Dialog>
-      )}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Container>
   );
 };

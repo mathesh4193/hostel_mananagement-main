@@ -1,99 +1,256 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Typography, Paper, Grid, List, ListItem, ListItemText } from '@mui/material';
-import PersonIcon from '@mui/icons-material/Person';
-import SchoolIcon from '@mui/icons-material/School';
-import axios from 'axios';
-import './StudentDashboard.css';
+import React, { useState } from 'react';
+import { 
+  Container, 
+  Typography, 
+  Grid, 
+  Paper, 
+  Button, 
+  Box,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Drawer
+} from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import ReportIcon from '@mui/icons-material/Report';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
+import SecurityIcon from '@mui/icons-material/Security';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import './Dashboard.css';
+import MenuIcon from '@mui/icons-material/Menu';
+import IconButton from '@mui/material/IconButton';
 
 const StudentDashboard = () => {
-  const [studentInfo, setStudentInfo] = useState({
-    name: 'John Doe', // Default values for testing
-    registerNo: '12345',
-    rollNo: '22CSEA44'
-  });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const userId = localStorage.getItem('userId');
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(true);
+  const studentName = localStorage.getItem('userName');
+  const isLoggedIn = !!studentName;
+  
+  const sidebarItems = [
+    { title: 'Leave Application', icon: <AssignmentIcon />, path: '/student-dashboard/leave' },
+    { title: 'Attendance', icon: <EventNoteIcon />, path: '/attendance' },
+    { title: 'Complaints', icon: <ReportIcon />, path: '/complaints' },
+    { title: 'Room Details', icon: <MeetingRoomIcon />, path: '/room' },
+    { title: 'Mess Schedule', icon: <RestaurantMenuIcon />, path: '/mess' },
+    { title: 'Security', icon: <SecurityIcon />, path: '/security' },
+    { title: 'Outpass', icon: <ExitToAppIcon />, path: '/outpass' },
+    ...(isLoggedIn ? [{ title: 'Profile', icon: <AccountCircleIcon />, path: '/profile' }] : []),
+  ];
+  
+  const handleDrawerToggle = () => {
+    setOpen(!open);
+  };
 
-  useEffect(() => {
-    const fetchStudentInfo = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(`http://localhost:5000/api/students/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
-        });
-        setStudentInfo(response.data);
-        setError(null);
-      } catch (error) {
-        console.error('Error fetching student info:', error);
-        setError('Failed to load student information');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (userId) {
-      fetchStudentInfo();
-    }
-  }, [userId]);
-
-  if (loading) {
-    return (
-      <Container>
-        <Typography>Loading...</Typography>
-      </Container>
-    );
-  }
-
-  if (error) {
-    return (
-      <Container>
-        <Typography color="error">{error}</Typography>
-      </Container>
-    );
-  }
+  const studentInfo = {
+    name: 'Mathesh M',
+    registerNo: '913122104084',
+    rollNo: '22CSE44',
+    section: 'A',
+    email: 'mathesh4193@gmail.com',
+    phone: '63838-65710',
+    mentor: 'Dr. S. Kavitha',
+    classIncharge: 'Mrs.S. Padmadevi'
+  };
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Paper className="profile-section" sx={{ p: 3 }}>
-            <div className="profile-header">
-              <div className="profile-avatar">
-                <PersonIcon sx={{ fontSize: 60, color: '#1976d2' }} />
-              </div>
-              <Typography variant="h4">{studentInfo.name}</Typography>
-            </div>
-          </Paper>
-        </Grid>
+    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#f5f5f5' }}>
+      <IconButton
+        onClick={handleDrawerToggle}
+        sx={{
+          position: 'fixed',
+          left: open ? '240px' : '65px',
+          top: '10px',
+          zIndex: 1200,
+          backgroundColor: '#1a2035',
+          color: 'white',
+          '&:hover': {
+            backgroundColor: '#2a3446',
+          },
+        }}
+      >
+        <MenuIcon />
+      </IconButton>
 
-        <Grid item xs={12}>
-          <Paper className="info-section" sx={{ p: 3 }}>
-            <Typography variant="h6" className="section-title" sx={{ mb: 2 }}>
-              <SchoolIcon sx={{ mr: 1 }} /> Academic Information
+      <Drawer
+        variant="permanent"
+        open={open}
+        sx={{
+          width: open ? 240 : 65,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: open ? 240 : 65,
+            boxSizing: 'border-box',
+            backgroundColor: '#1a2035',
+            color: 'white',
+            overflowX: 'hidden',
+            transition: 'width 0.3s'
+          },
+        }}
+      >
+        <Box sx={{ p: 2, textAlign: 'center' }}>
+          <img src="/Vcet_logo.jpg" alt="VCET Logo" style={{ height: '40px' }} />
+          {open && (
+            <Typography variant="h6" sx={{ mt: 1 }}>
+              VCET Hostel
             </Typography>
-            <List>
-              <ListItem>
-                <ListItemText 
-                  primary="Register No" 
-                  secondary={studentInfo.registerNo} 
-                  sx={{ my: 1 }}
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemText 
-                  primary="Roll No" 
-                  secondary={studentInfo.rollNo} 
-                  sx={{ my: 1 }}
-                />
-              </ListItem>
-            </List>
-          </Paper>
+          )}
+        </Box>
+        <List>
+          {sidebarItems.map((item) => (
+            <ListItem 
+              button 
+              key={item.title}
+              onClick={() => navigate(item.path)}
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? 'initial' : 'center',
+                px: 2.5,
+                '&:hover': {
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                }
+              }}
+            >
+              <ListItemIcon 
+                sx={{ 
+                  color: '#4dabf5',
+                  minWidth: 0,
+                  mr: open ? 3 : 'auto',
+                  justifyContent: 'center'
+                }}
+              >
+                {item.icon}
+              </ListItemIcon>
+              {open && <ListItemText primary={item.title} />}
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
+
+      <Box component="main" sx={{ 
+        flexGrow: 1, 
+        p: 3, 
+        ml: open ? '240px' : '65px',
+        transition: 'margin-left 0.3s'
+      }}>
+        {/* Student Profile Section */}
+        <Paper sx={{ p: 3, mb: 3, bgcolor: '#1a2035', color: 'white' }}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: 'center' }}>
+                <AccountCircleIcon sx={{ fontSize: 100, color: '#4dabf5' }} />
+                <Typography variant="h5" sx={{ mt: 2 }}>{studentInfo.name}</Typography>
+                <Button 
+                  variant="contained" 
+                  sx={{ mt: 2, bgcolor: '#4dabf5' }}
+                >
+                  Edit Profile
+                </Button>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={8}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="subtitle2" color="#4dabf5">Register No</Typography>
+                  <Typography>{studentInfo.registerNo}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="subtitle2" color="#4dabf5">Roll No</Typography>
+                  <Typography>{studentInfo.rollNo}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="subtitle2" color="#4dabf5">Section</Typography>
+                  <Typography>{studentInfo.section}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="subtitle2" color="#4dabf5">Email</Typography>
+                  <Typography>{studentInfo.email}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="subtitle2" color="#4dabf5">Phone</Typography>
+                  <Typography>{studentInfo.phone}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="subtitle2" color="#4dabf5">Mentor</Typography>
+                  <Typography>{studentInfo.mentor}</Typography>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="subtitle2" color="#4dabf5">Class Incharge</Typography>
+                  <Typography>{studentInfo.classIncharge}</Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Paper>
+
+        {/* Dashboard Cards Grid remains the same */}
+        <Grid container spacing={3} className="dashboard-grid">
+          <Box component="main" sx={{ 
+            flexGrow: 1, 
+            p: 3, 
+            ml: open ? '240px' : '65px',
+            transition: 'margin-left 0.3s'
+          }}>
+            <Grid container spacing={3}>
+              {sidebarItems.slice(0, -1).map((item) => (
+                <Grid item xs={12} sm={6} md={4} key={item.title}>
+                  <Paper 
+                    className="dashboard-card"
+                    elevation={3}
+                    onClick={() => {
+                      if (!isLoggedIn && item.path !== '/login') {
+                        navigate('/login');
+                        return;
+                      }
+                      navigate(item.path);
+                    }}
+                    sx={{
+                      bgcolor: '#1a2035',
+                      color: 'white',
+                      p: 3,
+                      textAlign: 'center',
+                      height: '200px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 2,
+                      transition: 'transform 0.3s',
+                      '&:hover': {
+                        transform: 'translateY(-5px)',
+                        bgcolor: '#2a3446'
+                      }
+                    }}
+                  >
+                    <Box className="card-icon" sx={{ color: '#4dabf5', fontSize: '2.5rem' }}>
+                      {item.icon}
+                    </Box>
+                    <Typography variant="h6" sx={{ color: '#4dabf5' }}>
+                      {item.title}
+                    </Typography>
+                    <Button 
+                      variant="contained" 
+                      sx={{
+                        bgcolor: '#4dabf5',
+                        '&:hover': {
+                          bgcolor: '#2196f3'
+                        }
+                      }}
+                    >
+                      VIEW
+                    </Button>
+                  </Paper>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
         </Grid>
-      </Grid>
-    </Container>
+      </Box>
+    </Box>
   );
 };
 

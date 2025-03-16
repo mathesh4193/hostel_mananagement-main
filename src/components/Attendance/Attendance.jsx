@@ -49,7 +49,8 @@ const Attendance = () => {
             currentLocation.latitude,
             currentLocation.longitude,
             VCET_LOCATION.latitude,
-            VCET_LOCATION.longitude
+            VCET_LOCATION.longitude,
+            VCET_LOCATION.radius
           );
 
           console.log("Distance from VCET:", distance, "meters"); // Add this for debugging
@@ -67,7 +68,11 @@ const Attendance = () => {
       setError('Geolocation is not supported by this browser.');
       setLoading(false);
     }
-  }, []);
+  }, [
+    VCET_LOCATION.latitude,
+    VCET_LOCATION.longitude,
+    VCET_LOCATION.radius
+  ]);
 
   const handleMarkAttendance = () => {
     if (!isInCampus) {

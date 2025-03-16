@@ -1,4 +1,4 @@
-// Remove useEffect and location
+// Remove useLocation from imports
 import React, { useRef } from 'react';
 import { Container, Typography, Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';

@@ -54,6 +54,21 @@ const SignIn = () => {
     if (!validateForm()) return;
 
     try {
+      // Mock successful login for testing
+      if (role === 'Student' && userId && password) {
+        // Store user data in localStorage
+        localStorage.setItem('token', 'mock-token');
+        localStorage.setItem('role', 'student');
+        localStorage.setItem('userId', userId);
+        localStorage.setItem('userName', userId);
+
+        // Navigate to student dashboard
+        navigate('/student-dashboard');
+        return;
+      }
+
+      // Actual API call (uncomment when backend is ready)
+      /*
       const response = await axios.post('http://localhost:5000/api/auth/login', {
         userId,
         password,
@@ -61,22 +76,21 @@ const SignIn = () => {
       });
 
       if (response.data.success) {
-        // Store user data in localStorage
         localStorage.setItem('token', response.data.token);
         localStorage.setItem('role', role.toLowerCase());
         localStorage.setItem('userId', userId);
         localStorage.setItem('userName', response.data.userName);
 
-        // Navigate based on role
         if (role === 'Student') {
           navigate('/student-dashboard');
         } else if (role === 'Warden') {
           navigate('/warden-dashboard');
         }
       }
+      */
     } catch (err) {
       console.error('Login error:', err);
-      setError(err.response?.data?.message || 'Invalid credentials. Please try again.');
+      setError('Invalid credentials. Please try again.');
     }
   };
 

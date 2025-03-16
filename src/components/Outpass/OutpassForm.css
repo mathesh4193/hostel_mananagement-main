@@ -1,0 +1,50 @@
+.outpass-container {
+    padding: 24px;
+    max-width: 600px;
+    margin: 64px auto; /* Centers the form */
+  }
+  
+  .outpass-paper {
+    padding: 32px;
+    background: linear-gradient(135deg, #1a2035 0%, #2a3446 100%);
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+  }
+  
+  .outpass-title {
+    color: #4dabf5;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  
+  .outpass-input {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .outpass-submit {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #1976d2, #2196f3);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .outpass-submit:hover {
+    background: linear-gradient(135deg, #1565c0, #1976d2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .outpass-submit:disabled {
+    background: #5c5c5c;
+    cursor: not-allowed;
+  }
+  
