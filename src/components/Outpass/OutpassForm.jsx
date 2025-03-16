@@ -28,9 +28,9 @@ const OutpassForm = () => {
 
   return (
     <Box className="outpass-form-container">
-      <Paper elevation={3} className="outpass-paper" sx={{ p: 4 }}>
+      <Paper elevation={6} className="outpass-paper">
         <Typography variant="h5" className="outpass-title">
-          Outpass Request
+           Outpass Request
         </Typography>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={3}>
@@ -41,12 +41,12 @@ const OutpassForm = () => {
                   label="Time Out"
                   value={timeOut}
                   onChange={setTimeOut}
-                  slotProps={{ 
-                    textField: { 
-                      fullWidth: true, 
+                  slotProps={{
+                    textField: {
+                      fullWidth: true,
                       required: true,
-                      className: "form-field" 
-                    } 
+                      className: "form-field",
+                    },
                   }}
                 />
               </Grid>
@@ -56,12 +56,12 @@ const OutpassForm = () => {
                   label="Time In"
                   value={timeIn}
                   onChange={setTimeIn}
-                  slotProps={{ 
-                    textField: { 
-                      fullWidth: true, 
+                  slotProps={{
+                    textField: {
+                      fullWidth: true,
                       required: true,
-                      className: "form-field" 
-                    } 
+                      className: "form-field",
+                    },
                   }}
                 />
               </Grid>
@@ -71,9 +71,9 @@ const OutpassForm = () => {
               <TextField
                 className="reason-field form-field"
                 fullWidth
-                label="Reason"
+                label="Reason for Outpass"
                 multiline
-                rows={4}
+                rows={3}
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
                 required

@@ -50,7 +50,7 @@ const Home = () => {
       room: '/student-dashboard/room',
       security: '/student-dashboard/security',
       dashboard: '/student-dashboard',
-      outpass: '/student-dashboard/outpass',
+      outpass: '/outpass',  // Update this path to match App.js route
       attendance: '/attendance'  // Updated path for attendance
     };
 

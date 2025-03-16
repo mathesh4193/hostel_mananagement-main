@@ -15,6 +15,14 @@ import './Dashboard.css';
 
 const WardenDashboard = () => {
   const navigate = useNavigate();
+  
+  React.useEffect(() => {
+    // Update this check to match the auth token from SignIn
+    const wardenAuth = localStorage.getItem('role') === 'warden' && localStorage.getItem('token');
+    if (!wardenAuth) {
+      navigate('/');
+    }
+  }, [navigate]);
   const [open, setOpen] = useState(true);
 
   const sidebarItems = [

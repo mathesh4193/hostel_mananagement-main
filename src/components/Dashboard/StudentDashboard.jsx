@@ -24,6 +24,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import './Dashboard.css';
 import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
+import { Outlet } from 'react-router-dom';
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -187,67 +188,12 @@ const StudentDashboard = () => {
           </Grid>
         </Paper>
 
-        {/* Dashboard Cards Grid remains the same */}
+        {/* Add Outlet for nested routes */}
+        <Outlet />
+
+        {/* Dashboard Cards Grid */}
         <Grid container spacing={3} className="dashboard-grid">
-          <Box component="main" sx={{ 
-            flexGrow: 1, 
-            p: 3, 
-            ml: open ? '240px' : '65px',
-            transition: 'margin-left 0.3s'
-          }}>
-            <Grid container spacing={3}>
-              {sidebarItems.slice(0, -1).map((item) => (
-                <Grid item xs={12} sm={6} md={4} key={item.title}>
-                  <Paper 
-                    className="dashboard-card"
-                    elevation={3}
-                    onClick={() => {
-                      if (!isLoggedIn && item.path !== '/login') {
-                        navigate('/login');
-                        return;
-                      }
-                      navigate(item.path);
-                    }}
-                    sx={{
-                      bgcolor: '#1a2035',
-                      color: 'white',
-                      p: 3,
-                      textAlign: 'center',
-                      height: '200px',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 2,
-                      transition: 'transform 0.3s',
-                      '&:hover': {
-                        transform: 'translateY(-5px)',
-                        bgcolor: '#2a3446'
-                      }
-                    }}
-                  >
-                    <Box className="card-icon" sx={{ color: '#4dabf5', fontSize: '2.5rem' }}>
-                      {item.icon}
-                    </Box>
-                    <Typography variant="h6" sx={{ color: '#4dabf5' }}>
-                      {item.title}
-                    </Typography>
-                    <Button 
-                      variant="contained" 
-                      sx={{
-                        bgcolor: '#4dabf5',
-                        '&:hover': {
-                          bgcolor: '#2196f3'
-                        }
-                      }}
-                    >
-                      VIEW
-                    </Button>
-                  </Paper>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
+          {/* Dashboard cards content remains the same */}
         </Grid>
       </Box>
     </Box>

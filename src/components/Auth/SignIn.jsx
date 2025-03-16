@@ -25,24 +25,29 @@ const SignIn = () => {
   };
 
   const validateForm = () => {
-    // Clear previous errors
     setError('');
 
-    // Validate Roll Number format for students (22CSEA44)
-    const rollNoPattern = /^[0-9]{2}[A-Za-z]{4}[0-9]{2}$/i;
     if (role === 'Student') {
+      const rollNoPattern = /^[0-9]{2}[A-Za-z]{4}[0-9]{2}$/i;
       if (!rollNoPattern.test(userId)) {
         setError('Roll number should be in format: 22CSEA44');
         return false;
       }
-      // Convert roll number to uppercase
+      setUserId(userId.toUpperCase());
+    } else if (role === 'Warden') {
+      // Warden ID format: WARDEN123
+      const wardenPattern = /^WARDEN[0-9]{3}$/i;
+      if (!wardenPattern.test(userId)) {
+        setError('Warden ID should be in format: WARDEN123');
+        return false;
+      }
       setUserId(userId.toUpperCase());
     }
 
-    // Validate Password (12 digits)
+    // Example: Password should be 12 digits like: 123456789012
     const passwordPattern = /^[0-9]{12}$/;
     if (!passwordPattern.test(password)) {
-      setError('Password must be exactly 12 digits');
+      setError('Password must be exactly 12 digits (e.g., 123456789012)');
       return false;
     }
 
@@ -56,14 +61,21 @@ const SignIn = () => {
     try {
       // Mock successful login for testing
       if (role === 'Student' && userId && password) {
-        // Store user data in localStorage
         localStorage.setItem('token', 'mock-token');
         localStorage.setItem('role', 'student');
         localStorage.setItem('userId', userId);
         localStorage.setItem('userName', userId);
-
-        // Navigate to student dashboard
         navigate('/student-dashboard');
+        return;
+      }
+      
+      // Warden login
+      if (role === 'Warden' && userId && password) {
+        localStorage.setItem('token', 'mock-token');
+        localStorage.setItem('role', 'warden');
+        localStorage.setItem('userId', userId);
+        localStorage.setItem('userName', userId);
+        navigate('/warden-dashboard');  // Update this to match App.js route
         return;
       }
 

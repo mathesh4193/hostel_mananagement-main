@@ -1,4 +1,3 @@
-// Remove dayjs from imports if not used
 import React, { useState } from 'react';
 import {
   Container,
@@ -18,7 +17,6 @@ import {
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
 import './Leave.css';
 
 const Leave = () => {
@@ -29,6 +27,7 @@ const Leave = () => {
     halfDayOption: 'forenoon',
     reason: ''
   });
+
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: '',
@@ -37,7 +36,6 @@ const Leave = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission here
     setSnackbar({
       open: true,
       message: 'Leave request submitted successfully!',
@@ -103,14 +101,7 @@ const Leave = () => {
             sx={{ mb: 3 }}
           />
 
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            size="large"
-            className="submit-button"
-            fullWidth
-          >
+          <Button type="submit" variant="contained" size="large" className="submit-button" fullWidth>
             Request Leave
           </Button>
         </Box>
