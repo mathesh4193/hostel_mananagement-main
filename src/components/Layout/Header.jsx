@@ -8,12 +8,10 @@ import './Header.css';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 const Header = () => {
-  // Remove unused isLoggedIn variable or use it in your component
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const isLoggedIn = localStorage.getItem('userName');
+  const userName = localStorage.getItem('userName');
 
   // Hide header on dashboard pages
   const isDashboardPage = location.pathname.includes('dashboard');
@@ -56,38 +54,51 @@ const Header = () => {
           >
             Home
           </Button>
-          <Button 
-            color="inherit" 
-            component={Link} 
-            to="/attendance"
-          >
-            Attendance
-          </Button>
-          <Button 
-            color="inherit" 
-            component={Link} 
-            to="/complaints"  // Changed from "/complaint" to "/complaints"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Complaints
-          </Button>
-          <Button 
-            color="inherit" 
-            component={Link} 
-            to="/outpass"
-            startIcon={<AccessTimeIcon />}
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Outpass
-          </Button>
-          <Button 
-            color="inherit" 
-            component={Link} 
-            to="/login"
-          >
-            Sign In
-          </Button>
-          
+          {userName ? (
+            <>
+              <Button 
+                color="inherit" 
+                component={Link} 
+                to="/attendance"
+              >
+                Attendance
+              </Button>
+              <Button 
+                color="inherit" 
+                component={Link} 
+                to="/complaints"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Complaints
+              </Button>
+              <Button 
+                color="inherit" 
+                component={Link} 
+                to="/outpass"
+                startIcon={<AccessTimeIcon />}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Outpass
+              </Button>
+              <Button 
+                color="inherit" 
+                onClick={() => {
+                  localStorage.removeItem('userName');
+                  navigate('/');
+                }}
+              >
+                Sign Out
+              </Button>
+            </>
+          ) : (
+            <Button 
+              color="inherit" 
+              component={Link} 
+              to="/login"
+            >
+              Sign In
+            </Button>
+          )}
         </Box>
       </Toolbar>
     </AppBar>

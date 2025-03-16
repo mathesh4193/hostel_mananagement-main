@@ -1,18 +1,15 @@
-// Remove unused Container import
-// import { Container } from '@mui/material';
 import React, { useState } from 'react';
-import { 
-  Container, 
-  Typography, 
-  Grid, 
-  Paper, 
-  Button, 
+import {
+  Typography,
   Box,
+  Drawer,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Drawer
+  Paper,
+  Grid,
+  Button
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import AssignmentIcon from '@mui/icons-material/Assignment';
