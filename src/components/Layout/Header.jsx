@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, Button, Box, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+// Remove unused AccountCircleIcon import
+// import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Header.css';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 const Header = () => {
+  // Remove unused isLoggedIn variable or use it in your component
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();

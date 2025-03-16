@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+// Remove the unused axios import
+// import axios from 'axios';
 import './SignIn.css';
 
 const SignIn = () => {

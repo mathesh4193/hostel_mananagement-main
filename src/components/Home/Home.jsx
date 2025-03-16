@@ -10,7 +10,8 @@ import SecurityIcon from '@mui/icons-material/Security';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import './Home.css';
-import { useLocation } from 'react-router-dom';
+// Remove unused useLocation import
+// import { useLocation } from 'react-router-dom';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 
 const Home = () => {
