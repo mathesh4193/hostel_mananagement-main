@@ -29,9 +29,7 @@
   color: #e0e0e0;
 }
 
-.leave-form-paper:hover {
-  transform: translateY(-5px);
-}
+
 
 .submit-button {
   background: linear-gradient(90deg, #0072ff, #00c6ff);
@@ -42,4 +40,24 @@
 .submit-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(0, 198, 255, 0.3);
+}
+.leave-container {
+  padding: 1rem;
+  max-width: 100%;
+}
+
+.leave-title {
+  font-size: clamp(1.5rem, 4vw, 2.125rem) !important;
+  text-align: center;
+  margin-bottom: 1.5rem !important;
+}
+
+.leave-form-paper {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.submit-button {
+  margin-top: 1rem !important;
 }
