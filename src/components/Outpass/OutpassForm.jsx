@@ -9,35 +9,51 @@ import {
 } from '@mui/material';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import './OutpassForm.css';
 
 const OutpassForm = () => {
+  const [dateOut, setDateOut] = useState(null);
   const [timeOut, setTimeOut] = useState(null);
+  const [dateIn, setDateIn] = useState(null);
   const [timeIn, setTimeIn] = useState(null);
   const [reason, setReason] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!timeOut || !timeIn || !reason.trim()) {
+    if (!dateOut || !timeOut || !dateIn || !timeIn || !reason.trim()) {
       alert('Please fill out all fields.');
       return;
     }
-    console.log({ timeOut, timeIn, reason });
+    console.log({ dateOut, timeOut, dateIn, timeIn, reason });
   };
 
   return (
     <Box className="outpass-form-container">
       <Paper elevation={6} className="outpass-paper">
         <Typography variant="h5" className="outpass-title">
-           Outpass Request
+          Outpass Request
         </Typography>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={3}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <Grid item xs={12}>
-                <DateTimePicker
-                  className="date-picker"
+              <Grid item xs={12} sm={6}>
+                <DatePicker
+                  label="Date Out"
+                  value={dateOut}
+                  onChange={setDateOut}
+                  slotProps={{
+                    textField: {
+                      fullWidth: true,
+                      required: true,
+                      className: "form-field",
+                    },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TimePicker
                   label="Time Out"
                   value={timeOut}
                   onChange={setTimeOut}
@@ -50,9 +66,22 @@ const OutpassForm = () => {
                   }}
                 />
               </Grid>
-              <Grid item xs={12}>
-                <DateTimePicker
-                  className="date-picker"
+              <Grid item xs={12} sm={6}>
+                <DatePicker
+                  label="Date In"
+                  value={dateIn}
+                  onChange={setDateIn}
+                  slotProps={{
+                    textField: {
+                      fullWidth: true,
+                      required: true,
+                      className: "form-field",
+                    },
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TimePicker
                   label="Time In"
                   value={timeIn}
                   onChange={setTimeIn}
