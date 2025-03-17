@@ -8,10 +8,10 @@ const Attendance = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // VCET coordinates
+  // Updated VCET coordinates
   const VCET_LOCATION = {
-    latitude: 9.882275,  // Updated VCET latitude
-    longitude: 78.081789, // Updated VCET longitude
+    latitude: 9.893885,  // New VCET latitude
+    longitude: 78.173513, // New VCET longitude
     radius: 100 // 100 meters radius for campus coverage
   };
 
@@ -49,8 +49,7 @@ const Attendance = () => {
             currentLocation.latitude,
             currentLocation.longitude,
             VCET_LOCATION.latitude,
-            VCET_LOCATION.longitude,
-            VCET_LOCATION.radius
+            VCET_LOCATION.longitude
           );
 
           console.log("Distance from VCET:", distance, "meters"); // Add this for debugging
@@ -68,11 +67,7 @@ const Attendance = () => {
       setError('Geolocation is not supported by this browser.');
       setLoading(false);
     }
-  }, [
-    VCET_LOCATION.latitude,
-    VCET_LOCATION.longitude,
-    VCET_LOCATION.radius
-  ]);
+  }, [VCET_LOCATION.latitude, VCET_LOCATION.longitude, VCET_LOCATION.radius]);
 
   const handleMarkAttendance = () => {
     if (!isInCampus) {
