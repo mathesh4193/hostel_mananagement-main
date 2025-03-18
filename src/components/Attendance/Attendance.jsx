@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Button, Paper } from '@mui/material';
 
-// Move VCET_LOCATION outside the component
-const VCET_LOCATION = {
-  latitude: 13.015859,
-  longitude: 80.179054,
-  radius: 500
-};
-
 const Attendance = () => {
   const [location, setLocation] = useState(null);
   const [address, setAddress] = useState('');
