@@ -73,15 +73,6 @@ const Home = () => {
           variant="contained" 
           color="primary" 
           size="large"
-          onClick={() => scrollToSection(featuresRef)}
-          style={{ marginRight: '10px' }}
-        >
-          Explore Features
-        </Button>
-        <Button 
-          variant="contained" 
-          color="primary" 
-          size="large"
           onClick={() => navigate('/login')}
         >
           Get Started
@@ -89,7 +80,7 @@ const Home = () => {
       </Box>
 
       <Box className="features-section" ref={featuresRef}>
-        <Typography variant="h3">Our Features</Typography>
+        <Typography variant="h3">Features</Typography>
         <div className="features-grid">
           
           <div className="feature-card" onClick={() => handleFeatureClick('about')}>
