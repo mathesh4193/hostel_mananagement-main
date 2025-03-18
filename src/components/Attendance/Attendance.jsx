@@ -5,7 +5,7 @@ import { Container, Typography, Button, Paper } from "@mui/material";
 const VCET_LOCATION = {
   latitude: 9.882275, // Updated VCET latitude
   longitude: 78.081789, // Updated VCET longitude
-  radius: 100, // 100 meters radius for campus coverage
+  radius: 500, // 100 meters radius for campus coverage
 };
 
 // Haversine Formula to calculate distance
