@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { AppBar, Toolbar, Typography, Button, Box, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -13,7 +13,7 @@ const Header = () => {
   const userName = localStorage.getItem('userName');
 
   // Function to check if user is in VCET campus (13.0159° N, 80.1791° E)
-  const checkLocation = () => {
+  const checkLocation = useCallback(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -34,7 +34,11 @@ const Header = () => {
         }
       );
     }
-  };
+  }, []); // Add any dependencies the checkLocation function uses
+
+  useEffect(() => {
+    checkLocation();
+  }, [checkLocation]);
 
   // Function to calculate distance between two coordinates
   const getDistance = (lat1, lon1, lat2, lon2) => {
@@ -49,14 +53,24 @@ const Header = () => {
     return R * c;
   };
 
+  // Add checkLocation to the dependency array
   useEffect(() => {
     checkLocation();
-    const intervalId = setInterval(checkLocation, 60000); // Check every minute
-    return () => clearInterval(intervalId); // Cleanup interval
-  }, []);
+  }, [checkLocation]); // Add checkLocation as a dependency
 
-  // Hide header on dashboard pages
-  if (location.pathname.includes('dashboard')) return null;
+  // First useEffect for initial location check
+    useEffect(() => {
+      checkLocation();
+    }, [checkLocation]);
+  
+    // Second useEffect for interval
+    useEffect(() => {
+      const intervalId = setInterval(checkLocation, 60000); // Check every minute
+      return () => clearInterval(intervalId); // Cleanup interval
+    }, [checkLocation]);
+  
+    // Hide header on dashboard pages
+    if (location.pathname.includes('dashboard')) return null;
 
   const handleHomeClick = (e) => {
     if (location.pathname === '/') {
