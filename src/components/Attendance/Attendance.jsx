@@ -15,8 +15,14 @@ const Attendance = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
 
-  // Remove the duplicate VCET_LOCATION declaration that was here
+  // VCET coordinates
+  const VCET_LOCATION = {
+    latitude: 9.882275,  // Updated VCET latitude
+    longitude: 78.081789, // Updated VCET longitude
+    radius: 100 // 100 meters radius for campus coverage
+  };
 
+  // Haversine Formula to calculate distance
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const R = 6371e3; // Earth's radius in meters
     const φ1 = lat1 * Math.PI / 180;
@@ -82,7 +88,11 @@ const Attendance = () => {
       setError('Geolocation is not supported by this browser.');
       setLoading(false);
     }
-  }, []); // Empty dependency array since we only want this to run once
+  }, [
+    VCET_LOCATION.latitude,
+    VCET_LOCATION.longitude,
+    VCET_LOCATION.radius
+  ]);
 
   const handleMarkAttendance = () => {
     if (!isInCampus) {
