@@ -1,4 +1,3 @@
-// Remove useLocation from imports
 import React, { useRef } from 'react';
 import { Container, Typography, Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -9,35 +8,27 @@ import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import SecurityIcon from '@mui/icons-material/Security';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import './Home.css';
-// Remove unused useLocation import
-// import { useLocation } from 'react-router-dom';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import './Home.css';
 
 const Home = () => {
   const navigate = useNavigate();
   const featuresRef = useRef(null);
   const heroRef = useRef(null);
-  // Remove: const location = useLocation();
 
-  const scrollToSection = (sectionRef) => {
-    sectionRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  // Remove unused scrollToSection function
 
   const handleFeatureClick = (feature) => {
     const isLoggedIn = localStorage.getItem('token');
     const userRole = localStorage.getItem('role');
     
-    // List of features that don't require login
     const publicFeatures = ['about', 'complaint', 'attendance'];
     
-    // Features restricted to wardens only
     if (feature === 'mess' && userRole !== 'warden') {
       alert('Mess menu can only be accessed by wardens');
       return;
     }
 
-    // Check if login is required for this feature
     if (!isLoggedIn && !publicFeatures.includes(feature)) {
       navigate('/login', { state: { from: feature } });
       return;
@@ -51,8 +42,8 @@ const Home = () => {
       room: '/student-dashboard/room',
       security: '/student-dashboard/security',
       dashboard: '/student-dashboard',
-      outpass: '/outpass',  // Update this path to match App.js route
-      attendance: '/attendance'  // Updated path for attendance
+      outpass: '/outpass',
+      attendance: '/attendance'
     };
 
     if (navigationPaths[feature]) {
@@ -82,7 +73,7 @@ const Home = () => {
       <Box className="features-section" ref={featuresRef}>
         <Typography variant="h3">Features</Typography>
         <div className="features-grid">
-          
+          {/* Feature cards */}
           <div className="feature-card" onClick={() => handleFeatureClick('about')}>
             <AssignmentIcon className="feature-icon" />
             <Typography variant="h6">About Us</Typography>
@@ -131,17 +122,11 @@ const Home = () => {
             <Typography>Request out pass</Typography>
           </div>
           
-          {/* Add this new feature card */}
           <div className="feature-card" onClick={() => handleFeatureClick('attendance')}>
             <EventAvailableIcon className="feature-icon" />
             <Typography variant="h6">Attendance</Typography>
             <Typography>Track daily attendance</Typography>
           </div>
-          <div className=''>
-            
-          </div>
-          {/* Add more feature cards as needed */}
-
         </div>
       </Box>
     </Container>
