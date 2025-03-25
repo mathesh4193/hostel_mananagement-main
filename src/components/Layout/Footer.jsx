@@ -45,7 +45,7 @@ const Footer = () => {
             © 2025 VCET Hostel . All rights reserved.
           </Typography>
           <Typography variant="body2" sx={{ fontSize: '0.75rem' }}> {/* Smaller text */}
-            Designed and Developed by MATHESH.
+            Designed and Developed by CSE.
           </Typography>
         </Box>
       </Container>
