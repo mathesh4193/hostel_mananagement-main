@@ -47,3 +47,11 @@
   padding-top: 64px; /* Height of the header */
   padding-bottom: 20px;
 }
+
+.navbar.fixed-top {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+main {
+  min-height: calc(100vh - 76px);
+}

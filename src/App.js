@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -13,6 +14,14 @@ import Leave from './components/Leave/Leave';
 import Complaints from './components/Complaints/Complaints';
 import OutpassForm from './components/Outpass/OutpassForm';
 import Attendance from './components/Attendance/Attendance.jsx';
+import Students from './components/Warden/Students';
+import LeaveRequests from './components/Warden/LeaveRequests';
+
+// Update imports
+import WardenComplaints from './components/Warden/Complaints';
+
+// Add this import at the top
+import Outpass from './components/Warden/Outpass';
 
 function App() {
   return (
@@ -36,6 +45,13 @@ function App() {
           {/* OutpassForm Routes */}
           <Route path="/student-dashboard/outpass" element={<OutpassForm />} />
           <Route path="/outpass" element={<OutpassForm />} />
+          <Route path="/warden/students" element={<Students />} />
+          // Inside your Router configuration
+          <Route path="/warden/leave-requests" element={<LeaveRequests />} />
+          // Add this route in your Routes component
+          <Route path="/warden/outpass" element={<Outpass />} />
+          // Add this route in your Routes section
+          <Route path="/warden/complaints" element={<WardenComplaints />} />
         </Routes>
       </Layout>
     </Router>

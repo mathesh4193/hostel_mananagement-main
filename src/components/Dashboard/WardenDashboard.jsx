@@ -24,6 +24,7 @@ import './Dashboard.css';
 
 const WardenDashboard = () => {
   const navigate = useNavigate();
+  const [wardenName, setWardenName] = useState(localStorage.getItem('userName') || 'Warden');
   
   React.useEffect(() => {
     // Update this check to match the auth token from SignIn
@@ -39,7 +40,6 @@ const WardenDashboard = () => {
     { title: 'Student Management', icon: <PeopleIcon />, path: '/warden/students' },
     { title: 'Leave Requests', icon: <AssignmentIcon />, path: '/warden/leave-requests' },
     { title: 'Complaints', icon: <ReportProblemIcon />, path: '/warden/complaints' },
-    { title: 'Security Log', icon: <SecurityIcon />, path: '/warden/security' },
     { title: 'Outpass Requests', icon: <ExitToAppIcon />, path: '/warden/outpass' },
   ];
 
@@ -85,9 +85,14 @@ const WardenDashboard = () => {
         <Box sx={{ p: 2, textAlign: 'center' }}>
           <img src="/Vcet_logo.jpg" alt="VCET Logo" style={{ height: '40px' }} />
           {open && (
-            <Typography variant="h6" sx={{ mt: 1 }}>
-              Warden Portal
-            </Typography>
+            <>
+              <Typography variant="h6" sx={{ mt: 1 }}>
+                Warden Portal
+              </Typography>
+              <Typography variant="subtitle1" sx={{ mt: 1, fontStyle: 'italic' }}>
+                Welcome, {wardenName}
+              </Typography>
+            </>
           )}
         </Box>
         <List>
@@ -127,6 +132,9 @@ const WardenDashboard = () => {
         ml: open ? '240px' : '65px',
         transition: 'margin-left 0.3s'
       }}>
+        <Typography variant="h4" sx={{ mb: 4, color: '#2c387e' }}>
+          Welcome back, {wardenName}!
+        </Typography>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={3}>
             <Paper

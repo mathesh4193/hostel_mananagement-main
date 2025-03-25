@@ -1,147 +1,101 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Typography, TextField, Button, Paper, Box, Snackbar, Alert } from '@mui/material';
-import emailjs from '@emailjs/browser';
-import './Complaints.css';
+import React, { useState } from 'react';
+import { Container, Form, Button, Card, Alert, Row, Col } from 'react-bootstrap';
 
 const Complaints = () => {
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
-
-  useEffect(() => {
-    emailjs.init("E5morAfrIunaazqjt"); // Initialize EmailJS
-  }, []);
-
   const [complaint, setComplaint] = useState({
+    category: '',
     subject: '',
-    description: ''
+    description: '',
+    roomNumber: ''
   });
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!complaint.subject || !complaint.description) {
-      setSnackbarMessage('Please fill in all fields.');
-      setSnackbarSeverity('error');
-      setOpenSnackbar(true);
-      return;
-    }
-
-    try {
-      console.log("Sending complaint...");
-
-      const templateParams = {
-        subject: complaint.subject,
-        message: complaint.description,
-        timestamp: new Date().toLocaleString(),
-        from_name: 'VCET Hostel Student',
-        to_name: 'Hostel Administration',
-        to_email: 'mathinash58@gmail.com', // Change to another test email if needed
-        reply_to: 'your_verified_email@example.com' // Use an email verified in EmailJS
-      };
-
-      const response = await emailjs.send(
-        'service_qtshmw7',   // Your EmailJS service ID
-        'template_pd8c173',  // Your EmailJS template ID
-        templateParams,
-        'E5morAfrIunaazqjt'  // Your EmailJS public key
-      );
-
-      console.log("EmailJS Response:", response);
-
-      if (response.status === 200) {
-        setSnackbarMessage('Complaint submitted successfully!');
-        setSnackbarSeverity('success');
-        setComplaint({ subject: '', description: '' });
-      } else {
-        throw new Error(`Unexpected response: ${JSON.stringify(response)}`);
-      }
-    } catch (error) {
-      console.error('EmailJS Error:', error);
-      setSnackbarMessage(`Error: ${error.message}`);
-      setSnackbarSeverity('error');
-    } finally {
-      setOpenSnackbar(true);
-    }
-  };
-
-  const handleChange = (e) => {
-    setComplaint({
-      ...complaint,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
+    // Add your submission logic here
+    setSubmitted(true);
   };
 
   return (
-    <Container className="complaints-container">
-      <Typography variant="h4" className="complaints-title">
-        Submit a Complaint
-      </Typography>
-      
-      <Paper elevation={3} className="complaints-form-container">
-        <form onSubmit={handleSubmit}>
-          <Box className="form-field">
-            <TextField
-              fullWidth
-              label="Subject"
-              name="subject"
-              value={complaint.subject}
-              onChange={handleChange}
-              required
-              variant="outlined"
-              InputLabelProps={{
-                style: { color: 'white' }
-              }}
-            />
-          </Box>
+    <Container className="py-4">
+      <Card>
+        <Card.Header className="bg-primary text-white">
+          <h4 className="mb-0">Submit a Complaint</h4>
+        </Card.Header>
+        <Card.Body>
+          {submitted ? (
+            <Alert variant="success">
+              Your complaint has been submitted successfully!
+            </Alert>
+          ) : (
+            <Form onSubmit={handleSubmit}>
+              <Row>
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Category</Form.Label>
+                    <Form.Select
+                      value={complaint.category}
+                      onChange={(e) => setComplaint({...complaint, category: e.target.value})}
+                      required
+                    >
+                      <option value="">Select Category</option>
+                      <option value="maintenance">Maintenance</option>
+                      <option value="cleanliness">Cleanliness</option>
+                      <option value="facilities">Facilities</option>
+                      <option value="others">Others</option>
+                    </Form.Select>
+                  </Form.Group>
+                </Col>
+                <Col md={6}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Room Number</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={complaint.roomNumber}
+                      onChange={(e) => setComplaint({...complaint, roomNumber: e.target.value})}
+                      required
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
 
-          <Box className="form-field">
-            <TextField
-              fullWidth
-              label="Description"
-              name="description"
-              multiline
-              rows={4}
-              value={complaint.description}
-              onChange={handleChange}
-              required
-              variant="outlined"
-              InputLabelProps={{
-                style: { color: 'white' }
-              }}
-            />
-          </Box>
+              <Form.Group className="mb-3">
+                <Form.Label>Subject</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={complaint.subject}
+                  onChange={(e) => setComplaint({...complaint, subject: e.target.value})}
+                  required
+                />
+              </Form.Group>
 
-          <Button 
-            type="submit" 
-            variant="contained" 
-            color="primary" 
-            className="submit-button"
-          >
-            Submit Complaint
-          </Button>
-        </form>
-      </Paper>
+              <Form.Group className="mb-3">
+                <Form.Label>Description</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={4}
+                  value={complaint.description}
+                  onChange={(e) => setComplaint({...complaint, description: e.target.value})}
+                  required
+                />
+              </Form.Group>
 
-      {/* Snackbar for Notifications */}
-      <Snackbar 
-        open={openSnackbar} 
-        autoHideDuration={6000} 
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <Alert 
-          onClose={handleCloseSnackbar} 
-          severity={snackbarSeverity}
-          sx={{ width: '100%' }}
-        >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+              <Button type="submit" variant="primary">
+                Submit Complaint
+              </Button>
+            </Form>
+          )}
+        </Card.Body>
+      </Card>
+
+      <Card className="mt-4">
+        <Card.Header className="bg-info text-white">
+          <h5 className="mb-0">My Previous Complaints</h5>
+        </Card.Header>
+        <Card.Body>
+          <p className="text-muted">No previous complaints found.</p>
+        </Card.Body>
+      </Card>
     </Container>
   );
 };
