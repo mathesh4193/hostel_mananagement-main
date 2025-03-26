@@ -1,121 +1,209 @@
 import React, { useState } from 'react';
-import { Container, Form, Button, Card, Alert, Row, Col } from 'react-bootstrap';
+import { Container, Form, Button, Row, Col, Card, Alert } from 'react-bootstrap';
 
 const OutpassForm = () => {
-  const [outpass, setOutpass] = useState({
+  const [formData, setFormData] = useState({
     destination: '',
     purpose: '',
     departureDate: '',
     departureTime: '',
     returnDate: '',
     returnTime: '',
-    contactNumber: ''
+    emergencyContact: ''
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [validated, setValidated] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState({ show: false, message: '', variant: '' });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    const form = e.currentTarget;
+    
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+      setValidated(true);
+      return;
+    }
+
+    // Here you would typically send the data to your backend
+    console.log('Outpass request submitted:', formData);
+    
+    // Show success message
+    setSubmitStatus({
+      show: true,
+      message: 'Outpass request submitted successfully!',
+      variant: 'success'
+    });
+
+    // Reset form
+    setFormData({
+      destination: '',
+      purpose: '',
+      departureDate: '',
+      departureTime: '',
+      returnDate: '',
+      returnTime: '',
+      emergencyContact: ''
+    });
+    setValidated(false);
+
+    // Hide success message after 3 seconds
+    setTimeout(() => {
+      setSubmitStatus({ show: false, message: '', variant: '' });
+    }, 3000);
   };
 
   return (
     <Container className="py-4">
-      <Card>
+      <Card className="shadow-sm">
         <Card.Header className="bg-primary text-white">
           <h4 className="mb-0">Outpass Request Form</h4>
         </Card.Header>
         <Card.Body>
-          {submitted ? (
-            <Alert variant="success">
-              Your outpass request has been submitted successfully!
+          {submitStatus.show && (
+            <Alert variant={submitStatus.variant} dismissible onClose={() => setSubmitStatus({ show: false, message: '', variant: '' })}>
+              {submitStatus.message}
             </Alert>
-          ) : (
-            <Form onSubmit={handleSubmit}>
-              <Form.Group className="mb-3">
-                <Form.Label>Destination</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={outpass.destination}
-                  onChange={(e) => setOutpass({...outpass, destination: e.target.value})}
-                  required
-                />
-              </Form.Group>
+          )}
 
-              <Form.Group className="mb-3">
-                <Form.Label>Purpose</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={outpass.purpose}
-                  onChange={(e) => setOutpass({...outpass, purpose: e.target.value})}
-                  required
-                />
-              </Form.Group>
+          <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Row className="mb-3">
+              <Col md={12}>
+                <Form.Group controlId="destination">
+                  <Form.Label>Destination</Form.Label>
+                  <Form.Control
+                    required
+                    type="text"
+                    name="destination"
+                    placeholder="Enter your destination"
+                    value={formData.destination}
+                    onChange={handleChange}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a destination.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
 
-              <Row>
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Departure Date</Form.Label>
-                    <Form.Control
-                      type="date"
-                      value={outpass.departureDate}
-                      onChange={(e) => setOutpass({...outpass, departureDate: e.target.value})}
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Departure Time</Form.Label>
-                    <Form.Control
-                      type="time"
-                      value={outpass.departureTime}
-                      onChange={(e) => setOutpass({...outpass, departureTime: e.target.value})}
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
+            <Row className="mb-3">
+              <Col md={12}>
+                <Form.Group controlId="purpose">
+                  <Form.Label>Purpose</Form.Label>
+                  <Form.Control
+                    required
+                    as="textarea"
+                    rows={3}
+                    name="purpose"
+                    placeholder="Explain the purpose of your visit"
+                    value={formData.purpose}
+                    onChange={handleChange}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a purpose for your outpass.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
 
-              <Row>
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Return Date</Form.Label>
-                    <Form.Control
-                      type="date"
-                      value={outpass.returnDate}
-                      onChange={(e) => setOutpass({...outpass, returnDate: e.target.value})}
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-                <Col md={6}>
-                  <Form.Group className="mb-3">
-                    <Form.Label>Return Time</Form.Label>
-                    <Form.Control
-                      type="time"
-                      value={outpass.returnTime}
-                      onChange={(e) => setOutpass({...outpass, returnTime: e.target.value})}
-                      required
-                    />
-                  </Form.Group>
-                </Col>
-              </Row>
+            <Row className="mb-3">
+              <Col md={6}>
+                <Form.Group controlId="departureDate">
+                  <Form.Label>Departure Date</Form.Label>
+                  <Form.Control
+                    required
+                    type="date"
+                    name="departureDate"
+                    value={formData.departureDate}
+                    onChange={handleChange}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please select a departure date.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group controlId="departureTime">
+                  <Form.Label>Departure Time</Form.Label>
+                  <Form.Control
+                    required
+                    type="time"
+                    name="departureTime"
+                    value={formData.departureTime}
+                    onChange={handleChange}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please select a departure time.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
 
-              <Form.Group className="mb-3">
-                <Form.Label>Emergency Contact Number</Form.Label>
-                <Form.Control
-                  type="tel"
-                  value={outpass.contactNumber}
-                  onChange={(e) => setOutpass({...outpass, contactNumber: e.target.value})}
-                  required
-                />
-              </Form.Group>
+            <Row className="mb-3">
+              <Col md={6}>
+                <Form.Group controlId="returnDate">
+                  <Form.Label>Return Date</Form.Label>
+                  <Form.Control
+                    required
+                    type="date"
+                    name="returnDate"
+                    value={formData.returnDate}
+                    onChange={handleChange}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please select a return date.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group controlId="returnTime">
+                  <Form.Label>Return Time</Form.Label>
+                  <Form.Control
+                    required
+                    type="time"
+                    name="returnTime"
+                    value={formData.returnTime}
+                    onChange={handleChange}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please select a return time.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
 
-              <Button type="submit" variant="primary">
+            <Row className="mb-4">
+              <Col md={12}>
+                <Form.Group controlId="emergencyContact">
+                  <Form.Label>Emergency Contact Number</Form.Label>
+                  <Form.Control
+                    required
+                    type="tel"
+                    name="emergencyContact"
+                    placeholder="Enter emergency contact number"
+                    value={formData.emergencyContact}
+                    onChange={handleChange}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide an emergency contact number.
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+
+            <div className="d-grid">
+              <Button variant="primary" type="submit">
                 Submit Request
               </Button>
-            </Form>
-          )}
+            </div>
+          </Form>
         </Card.Body>
       </Card>
     </Container>

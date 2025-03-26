@@ -34,12 +34,13 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<SignIn />} />
-          <Route path="/complaints" element={<Complaints />} />
-          <Route path="/attendance" element={<Attendance />} />
-
-          {/* Student Dashboard Routes */}
+          
+          {/* Student Dashboard Routes - Protected with PrivateRoute */}
           <Route path="/student/dashboard" element={<PrivateRoute><StudentDashboard /></PrivateRoute>} />
-          <Route path="/student-dashboard/leave" element={<Leave />} />
+          <Route path="/student-dashboard/leave" element={<PrivateRoute><Leave /></PrivateRoute>} />
+          <Route path="/student-dashboard/outpass" element={<PrivateRoute><OutpassForm /></PrivateRoute>} />
+          <Route path="/complaints" element={<PrivateRoute><Complaints /></PrivateRoute>} />
+          <Route path="/attendance" element={<PrivateRoute><Attendance /></PrivateRoute>} />
 
           {/* Warden Dashboard */}
           <Route path="/warden/dashboard" element={<PrivateRoute><WardenDashboard /></PrivateRoute>} />

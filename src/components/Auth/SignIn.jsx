@@ -14,7 +14,7 @@ const SignIn = () => {
 
   const handleSuccessfulLogin = (role) => {
     const from = location.state?.from || '/';
-    if (from !== '/') {
+    if (from !== '/' && from.startsWith(`/${role}`)) {
       navigate(from);
     } else {
       navigate(`/${role}/dashboard`);
@@ -141,7 +141,7 @@ const SignIn = () => {
                       onClick={() => setShowPassword(!showPassword)}
                       style={{ padding: '0.375rem 0.75rem' }}
                     >
-                      {showPassword ? '👁️' : '👁️‍🗨️'}
+                      {showPassword ? 'Hide' : 'Show'}
                     </Button>
                   </div>
                 </Form.Group>
