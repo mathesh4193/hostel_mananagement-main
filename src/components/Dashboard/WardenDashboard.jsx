@@ -19,12 +19,11 @@ import PeopleIcon from '@mui/icons-material/People';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import SecurityIcon from '@mui/icons-material/Security';
 import './Dashboard.css';
 
 const WardenDashboard = () => {
   const navigate = useNavigate();
-  const [wardenName, setWardenName] = useState(localStorage.getItem('userName') || 'Warden');
+  const [wardenName] = useState('');
   
   React.useEffect(() => {
     // Update this check to match the auth token from SignIn

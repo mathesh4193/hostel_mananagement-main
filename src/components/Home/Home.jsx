@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Container, Typography, Box, Button, Grid } from '@mui/material';
+import { Container, Typography, Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import ReportProblemIcon from '@mui/icons-material/ReportProblem';
@@ -10,12 +10,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import './Home.css';
-// Remove these imports as they're no longer needed in Home.jsx
-import EmailIcon from '@mui/icons-material/Email';
-import PhoneIcon from '@mui/icons-material/Phone';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-
-// Add this import
+// Remove the unused BootstrapButton import
 import Footer from '../Layout/Footer';
 
 const Home = () => {
@@ -36,6 +31,18 @@ const Home = () => {
       return;
     }
 
+    // Redirect based on user role for dashboard
+    if (feature === 'dashboard') {
+      if (userRole === 'warden') {
+        navigate('/warden/dashboard');
+        return;
+      } else if (userRole === 'admin') {
+        navigate('/admin/dashboard');
+        return;
+      }
+      // Default to student dashboard if role is student or not specified
+    }
+
     if (!isLoggedIn && !publicFeatures.includes(feature)) {
       navigate('/login', { state: { from: feature } });
       return;
@@ -48,8 +55,8 @@ const Home = () => {
       mess: '/student-dashboard/mess',
       room: '/student-dashboard/room',
       security: '/student-dashboard/security',
-      dashboard: '/student-dashboard',
-      outpass: '/outpass',
+      dashboard: '/student/dashboard', // Default student dashboard path
+      outpass: '/student-dashboard/outpass',
       attendance: '/attendance'
     };
 

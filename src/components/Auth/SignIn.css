@@ -174,3 +174,28 @@ label {
 .p{
   color: #e0e0e0;
 }
+
+.role-selector .btn {
+  border-radius: 8px;
+  padding: 12px;
+  transition: all 0.3s ease;
+}
+
+.role-selector .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.role-selector .btn-primary {
+  background-color: #3498db;
+}
+
+.role-selector .btn-outline-primary {
+  color: #3498db;
+  border-color: #3498db;
+}
+
+.role-selector .btn-outline-primary:hover {
+  background-color: rgba(52, 152, 219, 0.1);
+  color: #3498db;
+}
