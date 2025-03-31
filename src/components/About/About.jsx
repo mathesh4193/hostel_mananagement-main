@@ -128,7 +128,7 @@ const About = () => {
       </Card>
 
       <div className="text-center mt-4 text-muted">
-        <p>A proud initiative developed by Mathesh, Department of Computer Science and Engineering.</p>
+        <p>A proud initiative developed by Department of Computer Science and Engineering.</p>
       </div>
     </Container>
   );
